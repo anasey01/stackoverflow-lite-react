@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Input from '../presentational/Input';
+import Input from './Input';
 
-class FormContainer extends Component {
+class Signup extends Component {
   constructor() {
     super();
     this.state = {
@@ -25,4 +25,4 @@ class FormContainer extends Component {
     );
   }
 }
-export default FormContainer;
+export default Signup;
