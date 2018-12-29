@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 const Input = ({ label, text, type, placeholder, id, value, handleChange }) => (
-  <div className="form-group">
+  <div>
     <label htmlFor={label}>{text}</label>
     <input
       type={type}

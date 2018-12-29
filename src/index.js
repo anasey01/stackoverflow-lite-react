@@ -1,13 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import RouteComponent from './route/RouteComponent';
+import store from './redux/store/index';
 
 class App extends React.Component {
     
     render() {
       
       return (
-        <RouteComponent />
+        <Provider store={store}>
+          <RouteComponent />
+        </Provider>
       );
     }
   }
