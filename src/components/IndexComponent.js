@@ -6,11 +6,10 @@ import Signup from './Signup/Signup';
 import Input from './Input';
 
 export default {
-    Header,
-    Footer,
-    NotFound,
-    Home,
-    Signup,
-    Input,
-    
-}
+  Header,
+  Footer,
+  NotFound,
+  Home,
+  Signup,
+  Input,
+};
