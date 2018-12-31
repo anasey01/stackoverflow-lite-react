@@ -1,33 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import '../styles/signup.scss';
 import '../styles/styles.scss';
-import signupUser from '../../redux/actions/signup';
+import { signupRequest } from '../../redux/actions/signup/signupAction';
+import { notify, ToastContainer } from '../../utilities/toast/notify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signupUser: user => dispatch(signupUser(user))
+    signupUser: user => dispatch(signupRequest(user))
   };
 };
 
 const mapStateToProps = (state) => {
-  const {
-    fullname,
-    gender,
-    username,
-    password,
-    email,
-  } = state;
   return {
-    fullname,
-    gender,
-    username,
-    password,
-    email,
+    registerUser: state.signupReducer,
   };
 };
 
-class SignupComponent extends Component {
+export class SignupComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,23 +37,27 @@ class SignupComponent extends Component {
     });
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
-    const url = 'https://anasey-stackoverflow-lite.herokuapp.com/api/v1/auth/signup';
-    window.fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=utf-8'
-      },
-      body: JSON.stringify(this.state)
-    })
-      .then(response => response.json())
-      .then(response => console.log(response));
-
-    this.props.signupUser(this.state);
-    this.setState({
-      [event.target.id]: '',
-    });
+    const {
+      signupUser,
+      history,
+    } = this.props;
+    const userInfo = await signupUser(this.state);
+    const {
+      success,
+      message
+    } = userInfo;
+    switch (success) {
+    case true:
+      notify(message, 'success');
+      break;
+    default:
+      return notify(message, 'failure');
+    }
+    if (success) {
+      return setTimeout(() => history.push('/'), 800);
+    }
   }
 
   render() {
@@ -73,42 +69,49 @@ class SignupComponent extends Component {
       email,
     } = this.state;
     return (
-      <form className="form-card form-group" onSubmit= {this.handleSubmit}>
-        <label htmlFor="fullname">Fullname</label>
-        <input type="text" id="fullname"
-          value={fullname} onChange={this.handleChange}
-          placeholder="Enter your fullname" />
+      <div>
+        <ToastContainer />
+        <form className="form-card form-group" onSubmit= {this.handleSubmit}>
+          <label htmlFor="fullname">Fullname</label>
+          <input type="text" id="fullname"
+            value={fullname} onChange={this.handleChange}
+            placeholder="Enter your fullname" required />
 
-        <label htmlFor="gender">Gender</label>
-        <select id="gender" className="label"
-          value= {gender}
-          onChange={this.handleChange}>
-          <option value="">SELECT YOUR GENDER</option>
-          <option value="M">M</option>
-          <option value="F">F</option>
-        </select>
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username"
-          value={username}
-          onChange={this.handleChange}
-          placeholder="Enter your username" />
+          <label htmlFor="gender">Gender</label>
+          <select id="gender" className="label"
+            value= {gender}
+            onChange={this.handleChange}>
+            <option value="">SELECT YOUR GENDER</option>
+            <option value="M">M</option>
+            <option value="F">F</option>
+          </select>
+          <label htmlFor="username">Username</label>
+          <input type="text" id="username"
+            value={username}
+            onChange={this.handleChange}
+            placeholder="Enter your username" required />
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password"
-          value={password}
-          onChange={this.handleChange}
-          placeholder="Enter your password" />
+          <label htmlFor="password">Password</label>
+          <input type="password" id="password"
+            value={password}
+            onChange={this.handleChange}
+            placeholder="Enter your password" required />
 
-        <label htmlFor="email">Email</label>
-        <input type="email" id="email"
-          value={email}
-          onChange={this.handleChange}
-          placeholder="Enter your valid email" />
-        <button type="submit" className="">SIGNUP</button>
-      </form>
+          <label htmlFor="email">Email</label>
+          <input type="email" id="email"
+            value={email}
+            onChange={this.handleChange}
+            placeholder="Enter your valid email" required />
+          <button type="submit" className="">SIGNUP</button>
+        </form>
+      </div>
     );
   }
 }
+SignupComponent.propTypes = {
+  signupUser: propTypes.func.isRequired,
+  history: propTypes.object,
+};
 
 const Signup = connect(mapStateToProps, mapDispatchToProps)(SignupComponent);
 export default Signup;
