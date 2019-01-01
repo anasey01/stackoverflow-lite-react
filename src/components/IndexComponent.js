@@ -5,6 +5,7 @@ import Home from './Home';
 import Signup from './Signup/Signup';
 import Input from './Input';
 import Login from './Login/Login';
+import CreateQuestion from './create-question/CreateQuestion';
 
 export default {
   Header,
@@ -14,4 +15,5 @@ export default {
   Signup,
   Input,
   Login,
+  CreateQuestion,
 };

@@ -4,13 +4,23 @@ import {
   SIGNUP_ERROR,
 } from '../../actionTypes/signup';
 
-const initialState = {
-  loading: false,
-  success: false,
-  error: null,
-  token: null,
-  user: null,
-};
+
+let initialState;
+
+try {
+  const persistedLogin = JSON.parse(localStorage.getItem('signup'));
+  if (persistedLogin) {
+    initialState = persistedLogin;
+  } else {
+    initialState = {
+      loading: false,
+      success: false,
+      error: null,
+      token: null,
+      user: null,
+    };
+  }
+} catch (error) { /** do nothing */ }
 
 const signupReducer = (state = initialState, action) => {
   switch (action.type) {
