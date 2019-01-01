@@ -10,6 +10,7 @@ const {
   Signup,
   Login,
   Home,
+  CreateQuestion,
 } = Components;
 
 
@@ -23,6 +24,7 @@ class RouteCompnent extends React.Component {
             <Route path="/" component={Home} exact />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
+            <Route path="/createquestion" component={CreateQuestion} />
             <Route component={NotFound} />
           </Switch>
           <Footer />

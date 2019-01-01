@@ -5,13 +5,23 @@ import {
   LOGOUT_USER,
 } from '../../actionTypes/login';
 
-const initialState = {
-  loading: false,
-  success: false,
-  error: null,
-  token: null,
-  id: null,
-};
+let initialState;
+
+try {
+  const persistedLogin = JSON.parse(localStorage.getItem('login'));
+  if (persistedLogin) {
+    initialState = persistedLogin;
+  } else {
+    initialState = {
+      loading: false,
+      success: false,
+      error: null,
+      token: null,
+      id: null,
+    };
+  }
+} catch (error) { /** do nothing */ }
+
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
