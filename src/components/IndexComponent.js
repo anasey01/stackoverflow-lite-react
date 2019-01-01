@@ -4,6 +4,7 @@ import NotFound from './404';
 import Home from './Home';
 import Signup from './Signup/Signup';
 import Input from './Input';
+import Login from './Login/Login';
 
 export default {
   Header,
@@ -12,4 +13,5 @@ export default {
   Home,
   Signup,
   Input,
+  Login,
 };
