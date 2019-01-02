@@ -3,6 +3,8 @@ import { mount, shallow } from 'enzyme';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import Signup, { SignupComponent } from './Signup';
 
 const middlewares = [thunk];
@@ -89,5 +91,43 @@ describe('<Signup />', () => {
       password: 'password12',
       email: 'johndoe@email.com'
     });
+  });
+
+  it('handleSubmit works as expected when signupUser returns true', () => {
+    const mock = new MockAdapter(axios);
+    const store = mockStore({});
+    const wrapper = mount(<Provider store={store}>
+      <Signup/>
+    </Provider>);
+    const instance = wrapper.find('SignupComponent').instance();
+
+    const event = { preventDefault: jest.fn() };
+
+    mock.onPost().reply(201, {
+      success: true,
+      message: 'this works',
+    });
+
+    instance.handleSubmit(event);
+    expect(event.preventDefault).toBeCalledTimes(1);
+  });
+
+  it('handleSubmit works as expected when signupUser returns false', () => {
+    const mock = new MockAdapter(axios);
+    const store = mockStore({});
+    const wrapper = mount(<Provider store={store}>
+      <Signup/>
+    </Provider>);
+    const instance = wrapper.find('SignupComponent').instance();
+
+    const event = { preventDefault: jest.fn() };
+
+    mock.onPost().reply(201, {
+      success: false,
+      message: 'this doesn\'t work',
+    });
+
+    instance.handleSubmit(event);
+    expect(event.preventDefault).toBeCalledTimes(1);
   });
 });

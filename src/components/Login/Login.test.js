@@ -1,6 +1,14 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { ConnectedLogin } from './Login';
+import axios from 'axios';
+import configureStore from 'redux-mock-store';
+import { Provider } from 'react-redux';
+import MockAdapter from 'axios-mock-adapter';
+import thunk from 'redux-thunk';
+import Login, { ConnectedLogin } from './Login';
+
+const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
 
 describe('<Login />', () => {
   it('should shallow render ConnectedLogin', () => {
@@ -48,5 +56,43 @@ describe('<Login />', () => {
       password: 'password',
     });
     wrapper.unmount();
+  });
+
+  it('handleSubmit works as expected when loginRequest returns true', () => {
+    const mock = new MockAdapter(axios);
+    const store = mockStore({});
+    const wrapper = mount(<Provider store={store}>
+      <Login />
+    </Provider>);
+    const instance = wrapper.find('ConnectedLogin').instance();
+
+    const event = { preventDefault: jest.fn() };
+
+    mock.onPost().reply(201, {
+      success: true,
+      message: 'this works',
+    });
+
+    instance.handleSubmit(event);
+    expect(event.preventDefault).toBeCalledTimes(1);
+  });
+
+  it('handleSubmit works as expected when loginRequest returns false', () => {
+    const mock = new MockAdapter(axios);
+    const store = mockStore({});
+    const wrapper = mount(<Provider store={store}>
+      <Login />
+    </Provider>);
+    const instance = wrapper.find('ConnectedLogin').instance();
+
+    const event = { preventDefault: jest.fn() };
+
+    mock.onPost().reply(201, {
+      success: false,
+      message: 'this doesn\'t work',
+    });
+
+    instance.handleSubmit(event);
+    expect(event.preventDefault).toBeCalledTimes(1);
   });
 });

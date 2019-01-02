@@ -1,7 +1,10 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import Components from '../components/IndexComponent';
 import '../components/styles/styles.scss';
+
+const history = createHistory();
 
 const {
   Header,
@@ -11,27 +14,29 @@ const {
   Login,
   Home,
   CreateQuestion,
+  SingleQuestion,
 } = Components;
 
 
-class RouteCompnent extends React.Component {
+class RouteComponent extends React.Component {
   render() {
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <div>
-          <Header />
+          <Header history={history}/>
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/createquestion" component={CreateQuestion} />
+            <Route path="/questions/:id" component={SingleQuestion} />
             <Route component={NotFound} />
           </Switch>
           <Footer />
         </div>
-      </BrowserRouter>
+      </Router>
     );
   }
 }
 
-export default RouteCompnent;
+export default RouteComponent;

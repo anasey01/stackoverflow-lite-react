@@ -8,7 +8,7 @@ import * as types from '../../actionTypes/signup';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('signup acttions', () => {
+describe('signup actions', () => {
   it('should dispatch SIGNUP_BEGIN and SIGNUP_ERROR when signupRequest fails', () => {
     const mock = new MockAdapter(axios);
     mock.onPost('https://anasey-stackoverflow-lite.herokuapp.com/api/v1/auth/signup')

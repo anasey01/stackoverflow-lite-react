@@ -1,18 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
     <header>
       <div className="container">
         <div id="company-logo">
-          <a href="/"><h1>Stack <span className="highlight">OverFlow-Lite</span></h1></a>
+          <Link to="/"><h1>Stack <span className="highlight">OverFlow-Lite</span></h1></Link>
         </div>
         <nav>
           <ul>
-            <li><a href="/login" id="login">Login</a></li>
-            <li><a href="/signup" id="signup">Sign Up</a></li>
-            <li><a href="/dashboard" className="disabled" id="dashboard">Dashboard</a></li>
-            <li><a id="logout" className="disabled">Logout</a></li>
+            <li><Link to="/login" id="login">Login</Link></li>
+            <li><Link to="/signup" id="signup">Sign Up</Link></li>
+            <li><Link to="/dashboard" className="disabled" id="dashboard">Dashboard</Link></li>
+            <li><Link to="/logout" id="logout" className="disabled">Logout</Link></li>
           </ul>
         </nav>
       </div>

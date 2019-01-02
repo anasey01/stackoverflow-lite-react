@@ -1,7 +1,10 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import configureStore from 'redux-mock-store';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import thunk from 'redux-thunk';
 import CreateQuestion, { ConnectedCreateQuestion } from './CreateQuestion';
 
@@ -9,20 +12,14 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe('<CreateQuestion />', () => {
-  it('matches the snapshot', () => {
-    const initialState = {};
-    const store = mockStore(initialState);
-
-    const wrapper = shallow(<Provider store={store}>
-      <CreateQuestion />
-    </Provider>);
-    expect(wrapper).toMatchSnapshot();
-  });
-
   it('should simulate state change', () => {
     const mockCreateQuestionFn = jest.fn();
-    const wrapper = mount(<ConnectedCreateQuestion
-      createUserQuestion={mockCreateQuestionFn} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedCreateQuestion
+          createUserQuestion={mockCreateQuestionFn} />
+      </MemoryRouter>
+    );
 
     const title = wrapper.find('#title');
     title.instance().value = 'Some title';
@@ -32,7 +29,7 @@ describe('<CreateQuestion />', () => {
     content.instance().value = 'Some content';
     content.simulate('change');
 
-    expect(wrapper.state()).toMatchObject({
+    expect(wrapper.find('ConnectedCreateQuestion').state()).toMatchObject({
       questionTitle: 'Some title',
       questionContent: 'Some content',
       questionId: null,
@@ -42,8 +39,12 @@ describe('<CreateQuestion />', () => {
 
   it('should simulate submiting form successfully', () => {
     const mockCreateQuestionFn = jest.fn();
-    const wrapper = mount(<ConnectedCreateQuestion
-      createUserQuestion={mockCreateQuestionFn} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedCreateQuestion
+          createUserQuestion={mockCreateQuestionFn} />
+      </MemoryRouter>
+    );
 
     const title = wrapper.find('#title');
     title.instance().value = 'Some title';
@@ -61,5 +62,54 @@ describe('<CreateQuestion />', () => {
       questionId: null,
     });
     wrapper.unmount();
+  });
+
+  it('handleSubmit works as expected when createUserQuestion returns true', async () => {
+    const mock = new MockAdapter(axios);
+    const store = mockStore({});
+    const wrapper = mount(
+      <MemoryRouter>
+        <Provider store={store}>
+          <CreateQuestion />
+        </Provider>
+      </MemoryRouter>
+    );
+    const instance = wrapper.find('ConnectedCreateQuestion').instance();
+
+    const event = { preventDefault: jest.fn() };
+
+    mock.onPost().reply(201, {
+      success: true,
+      message: 'this works',
+      question: {
+        question_id: 1,
+      }
+    });
+
+    await instance.handleSubmit(event);
+    expect(event.preventDefault).toBeCalledTimes(1);
+  });
+
+  it('handleSubmit works as expected when createUserQuestion returns false', async () => {
+    const mock = new MockAdapter(axios);
+    const store = mockStore({});
+    const wrapper = mount(
+      <MemoryRouter>
+        <Provider store={store}>
+          <CreateQuestion />
+        </Provider>
+      </MemoryRouter>
+    );
+    const instance = wrapper.find('ConnectedCreateQuestion').instance();
+
+    const event = { preventDefault: jest.fn() };
+
+    mock.onPost().reply(201, {
+      success: false,
+      message: 'this doesn\'t works',
+    });
+
+    await instance.handleSubmit(event);
+    expect(event.preventDefault).toBeCalledTimes(1);
   });
 });

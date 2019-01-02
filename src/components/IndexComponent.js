@@ -6,6 +6,7 @@ import Signup from './Signup/Signup';
 import Input from './Input';
 import Login from './Login/Login';
 import CreateQuestion from './create-question/CreateQuestion';
+import SingleQuestion from './SingleQuestion/SingleQuestion';
 
 export default {
   Header,
@@ -16,4 +17,5 @@ export default {
   Input,
   Login,
   CreateQuestion,
+  SingleQuestion,
 };

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { notify, ToastContainer } from '../../utilities/toast/notify';
 import { createQuestion } from '../../redux/actions/create-question/createQuestionActions';
 import '../styles/createQuestion.scss';
@@ -58,9 +59,9 @@ export class ConnectedCreateQuestion extends Component {
           <div id="left-sidebar">
             <nav>
               <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/recentquestion">Recent Questions</a></li>
-                <li id="no-border" className="highlight-current"><a href="/createquestion">Ask a Question</a></li>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/recentquestion">Recent Questions</Link></li>
+                <li id="no-border" className="highlight-current"><Link to="/createquestion">Ask a Question</Link></li>
               </ul>
             </nav>
           </div>
