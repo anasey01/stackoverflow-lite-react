@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../../store';
 import {
   CREATE_QUESTION_BEGIN,
   CREATE_QUESTION_SUCCESS,
@@ -21,10 +22,12 @@ export const createQuestionError = error => ({
 
 export const createQuestion = (question) => {
   const url = 'https://anasey-stackoverflow-lite.herokuapp.com/api/v1/questions';
-  const loginToken = JSON.parse(localStorage.getItem('login'));
-  const signupToken = JSON.parse(localStorage.getItem('signup'));
+  const tokens = store.getState();
 
-  const token = loginToken.token || signupToken.token;
+  const loginToken = tokens.loginReducer.token;
+  const signupToken = tokens.signupReducer.token;
+  const token = loginToken || signupToken;
+
   return (dispatch) => {
     return axios({
       method: 'POST',
