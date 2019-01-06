@@ -1,9 +1,10 @@
 
 const isAuthenticated = () => {
   try {
-    const localStore = localStorage.getItem('store');
-    const signupToken = localStore.signupReducer.token;
-    const loginToken = localStore.loginReducer.token;
+    const login = JSON.parse(localStorage.getItem('login'));
+    const signup = JSON.parse(localStorage.getItem('signup'));
+    const signupToken = signup.token;
+    const loginToken = login.token;
     if (signupToken || loginToken) return true;
   } catch (error) { /* do nothing */ }
   return false;

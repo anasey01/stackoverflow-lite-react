@@ -69,9 +69,10 @@ export class SignupComponent extends Component {
       email,
     } = this.state;
     return (
-      <div>
+      <div className="min-height">
         <ToastContainer />
         <form className="form-card form-group" onSubmit= {this.handleSubmit}>
+          <h2 className="center">Signup</h2>
           <label htmlFor="fullname">Fullname</label>
           <input type="text" id="fullname"
             value={fullname} onChange={this.handleChange}

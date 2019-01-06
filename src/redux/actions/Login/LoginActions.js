@@ -32,6 +32,7 @@ export const loginRequest = (user) => {
     return axios.post(url, user)
       .then((response) => {
         dispatch(loginSuccess(response.data));
+        
         return response.data;
       })
       .catch((error) => {
@@ -41,6 +42,4 @@ export const loginRequest = (user) => {
   };
 };
 
-export const logoutRequest = (dispatch) => {
-  dispatch(logout());
-};
+export const logoutRequest = () => dispatch => dispatch(logout());
