@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import propTypes from 'prop-types';
 import LeftSidebar from '../Left-SideBar/LeftSideBar';
 import { loadQuestion } from '../../redux/actions/singleQuestion/singleQuestionActions';
-import '../styles/singleQuestion.scss';
 import AnswerComponent from '../Answers/Answers';
+import store from '../../redux/store/index';
+import calculateTiming from '../../utilities/formatTime/calculateTime';
+import isOwner from '../../utilities/ownership/isOwner';
+import '../styles/singleQuestion.scss';
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -19,6 +23,8 @@ export class ConnectedSingleQuestion extends Component {
       questionId: '',
       author: '',
       question: {},
+      date: '',
+      deleteButton: 'disabled',
     };
   }
 
@@ -29,18 +35,25 @@ export class ConnectedSingleQuestion extends Component {
   getSingleQuestion = async () => {
     const questionId = this.props.match.params.id;
     const {
-      loadSingleQuestion
+      loadSingleQuestion,
+      history,
     } = this.props;
 
     const response = await loadSingleQuestion(questionId);
+    if (response.message === 'Invalid token.') {
+      return setTimeout(() => history.push('/login'), 500);
+    }
+    const date = calculateTiming(response.single.question.created_at);
     return this.setState({
       question: response.single.question,
+      date,
     });
   };
 
   render() {
     const {
-      question
+      question,
+      date,
     } = this.state;
     return (
       <div className="main container">
@@ -61,7 +74,7 @@ export class ConnectedSingleQuestion extends Component {
                 <span id="question-author">{question.username}</span>
               </p>
               <p className="asked-by-time" id="question-time">
-                <span id="creation-date">{question.created_at}</span>
+                <span id="creation-date">{date}</span>
               </p>
               <div id="deleteQuestion">
                 <Link to="" className="btn deleteBtn" id="deleteQuestion">Delete Question</Link>
@@ -74,6 +87,12 @@ export class ConnectedSingleQuestion extends Component {
     );
   }
 }
+
+ConnectedSingleQuestion.propTypes = {
+  loadSingleQuestion: propTypes.func,
+  match: propTypes.object,
+  history: propTypes.object
+};
 
 const SingleQuestion = connect(null, mapDispatchToProps)(ConnectedSingleQuestion);
 export default SingleQuestion;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
@@ -11,17 +12,26 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe('<Login />', () => {
-  it('should shallow render ConnectedLogin', () => {
+  it('should render ConnectedLogin', () => {
     const mockLoginFn = jest.fn();
-    const wrapper = shallow(<ConnectedLogin login={mockLoginFn} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedLogin login={mockLoginFn} />
+      </MemoryRouter>
+    );
     expect(wrapper.find('#login-form').exists()).toBe(true);
     expect(wrapper.find('#username').exists()).toBe(true);
     expect(wrapper.find('#password').exists()).toBe(true);
+    wrapper.unmount();
   });
 
   it('should simulate state change', () => {
     const mockLoginFn = jest.fn();
-    const wrapper = mount(<ConnectedLogin login={mockLoginFn} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedLogin login={mockLoginFn} />
+      </MemoryRouter>
+    );
 
     const username = wrapper.find('#username');
     username.instance().value = 'john Doe';
@@ -30,8 +40,8 @@ describe('<Login />', () => {
     const password = wrapper.find('#password');
     password.instance().value = 'password';
     password.simulate('change');
-
-    expect(wrapper.state()).toMatchObject({
+    // console.log(wrapper.state());
+    expect(wrapper.find('ConnectedLogin').state()).toEqual({
       username: 'john Doe',
       password: 'password',
     });
@@ -40,7 +50,11 @@ describe('<Login />', () => {
 
   it('should simulate submiting form successfully', () => {
     const mockLoginFn = jest.fn();
-    const wrapper = mount(<ConnectedLogin login={mockLoginFn} />);
+    const wrapper = mount(
+      <MemoryRouter>
+        <ConnectedLogin login={mockLoginFn} />
+      </MemoryRouter>
+    );
     const username = wrapper.find('#username');
     username.instance().value = 'john Doe';
     username.simulate('change');
@@ -61,9 +75,13 @@ describe('<Login />', () => {
   it('handleSubmit works as expected when loginRequest returns true', () => {
     const mock = new MockAdapter(axios);
     const store = mockStore({});
-    const wrapper = mount(<Provider store={store}>
-      <Login />
-    </Provider>);
+    const wrapper = mount(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Login />
+        </Provider>
+      </MemoryRouter>
+    );
     const instance = wrapper.find('ConnectedLogin').instance();
 
     const event = { preventDefault: jest.fn() };
@@ -75,14 +93,19 @@ describe('<Login />', () => {
 
     instance.handleSubmit(event);
     expect(event.preventDefault).toBeCalledTimes(1);
+    wrapper.unmount();
   });
 
   it('handleSubmit works as expected when loginRequest returns false', () => {
     const mock = new MockAdapter(axios);
     const store = mockStore({});
-    const wrapper = mount(<Provider store={store}>
-      <Login />
-    </Provider>);
+    const wrapper = mount(
+      <MemoryRouter>
+        <Provider store={store}>
+          <Login />
+        </Provider>
+      </MemoryRouter>
+    );
     const instance = wrapper.find('ConnectedLogin').instance();
 
     const event = { preventDefault: jest.fn() };
@@ -94,5 +117,6 @@ describe('<Login />', () => {
 
     instance.handleSubmit(event);
     expect(event.preventDefault).toBeCalledTimes(1);
+    wrapper.unmount();
   });
 });

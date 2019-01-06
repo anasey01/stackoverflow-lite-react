@@ -54,7 +54,7 @@ export class ConnectedCreateQuestion extends Component {
 
   render() {
     return (
-      <div className="main">
+      <div className="main min-height">
         <aside>
           <div id="left-sidebar">
             <nav>

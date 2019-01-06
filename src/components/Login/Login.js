@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { notify, ToastContainer } from '../../utilities/toast/notify';
 import { loginRequest } from '../../redux/actions/Login/LoginActions';
@@ -50,9 +51,11 @@ export class ConnectedLogin extends Component {
 
   render() {
     return (
-      <div>
+      <div className="min-height">
         <ToastContainer />
         <div className="form-card">
+          <h2 className="center">Welcome back</h2>
+          <p className="center">Please login</p>
           <form id="login-form" onSubmit={this.handleSubmit}>
             <label htmlFor="username">Username</label>
             <input type="text" name="username"
@@ -68,7 +71,7 @@ export class ConnectedLogin extends Component {
               placeholder="Enter your Password"
               required />
             <button type="submit" id="submit" className="btn">Login</button>
-            <p id="signup">Don't have an account? <a href="/signup">Signup </a></p>
+            <p id="signup">Don't have an account? <Link to="/signup">Signup </Link></p>
           </form>
         </div>
       </div>
