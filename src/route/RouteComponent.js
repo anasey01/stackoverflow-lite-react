@@ -16,6 +16,7 @@ const {
   CreateQuestion,
   SingleQuestion,
   Logout,
+  Answer,
 } = Components;
 
 

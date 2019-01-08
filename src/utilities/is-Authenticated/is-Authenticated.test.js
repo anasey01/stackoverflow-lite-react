@@ -4,7 +4,15 @@ import isAuthenticated from './isAuthenticated';
 
 describe('isLoggedAuthenticated works as expected', () => {
   it('should return false when a token does not exist', () => {
-    store.dispatch(actions.signupSuccess({ id: 'id', token: 'token' })); // login fake user
+    const user = {
+      id: 'id',
+      token: 'token',
+      user: {
+        username: 'someUsername',
+      },
+      username: 'someUsername'
+    };
+    store.dispatch(actions.signupSuccess(user)); // login fake user
     expect(isAuthenticated()).toBe(true);
   });
 });

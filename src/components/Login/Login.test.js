@@ -12,6 +12,17 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe('<Login />', () => {
+  let store;
+  const initialState = {
+    loginReducer: {
+      loading: false,
+    },
+  };
+
+  beforeEach(() => {
+    store = mockStore(initialState);
+  });
+
   it('should render ConnectedLogin', () => {
     const mockLoginFn = jest.fn();
     const wrapper = mount(
@@ -74,7 +85,6 @@ describe('<Login />', () => {
 
   it('handleSubmit works as expected when loginRequest returns true', () => {
     const mock = new MockAdapter(axios);
-    const store = mockStore({});
     const wrapper = mount(
       <MemoryRouter>
         <Provider store={store}>
@@ -98,7 +108,6 @@ describe('<Login />', () => {
 
   it('handleSubmit works as expected when loginRequest returns false', () => {
     const mock = new MockAdapter(axios);
-    const store = mockStore({});
     const wrapper = mount(
       <MemoryRouter>
         <Provider store={store}>

@@ -56,7 +56,7 @@ export class SignupComponent extends Component {
       return notify(message, 'failure');
     }
     if (success) {
-      return setTimeout(() => history.push('/'), 2000);
+      return setTimeout(() => history.push('/'), 500);
     }
   }
 

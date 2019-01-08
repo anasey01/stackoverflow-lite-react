@@ -3,6 +3,7 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
 } from '../../actionTypes/signup';
+import { LOGOUT_USER } from '../../actionTypes/login';
 
 
 let initialState;
@@ -18,6 +19,7 @@ try {
       error: null,
       token: null,
       user: null,
+      username: null,
     };
   }
 } catch (error) { /** do nothing */ }
@@ -37,6 +39,7 @@ const signupReducer = (state = initialState, action) => {
       error: null,
       token: action.payload.token,
       user: action.payload.user,
+      username: action.payload.user.username,
     };
   case SIGNUP_ERROR:
     return {
@@ -46,6 +49,15 @@ const signupReducer = (state = initialState, action) => {
       user: null,
       token: null,
       loading: false,
+      username: null,
+    };
+  case LOGOUT_USER:
+    return {
+      ...state,
+      user: null,
+      token: null,
+      loading: false,
+      username: null,
     };
   default:
     return state;

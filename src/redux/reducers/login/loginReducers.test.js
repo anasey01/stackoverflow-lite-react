@@ -7,6 +7,7 @@ const state = {
   error: null,
   token: null,
   id: null,
+  username: null,
 };
 
 describe('login reducer test', () => {
@@ -27,12 +28,14 @@ describe('login reducer test', () => {
     state.success = true;
     state.id = 'something';
     state.token = 'token';
+    state.username = 'oluseyi';
 
     expect(loginReducer(state, {
       type: types.LOGIN_SUCCESS,
       payload: {
         id: 'something',
         token: 'token',
+        username: 'oluseyi',
       },
     })).toEqual(state);
   });
@@ -43,6 +46,7 @@ describe('login reducer test', () => {
     state.id = null;
     state.token = null;
     state.error = 'error';
+    state.username = null;
 
     expect(loginReducer(state, {
       type: types.LOGIN_ERROR,

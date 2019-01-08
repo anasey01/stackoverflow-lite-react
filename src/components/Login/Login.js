@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
+import Loader from '../loader/Loader';
 import { notify, ToastContainer } from '../../utilities/toast/notify';
 import { loginRequest } from '../../redux/actions/Login/LoginActions';
 import '../styles/login.scss';
 
 const mapDispatchToProps = dispatch => ({
   login: user => dispatch(loginRequest(user))
+});
+
+const mapStateTpProps = state => ({
+  loading: state.loginReducer.loading
 });
 
 export class ConnectedLogin extends Component {
@@ -45,11 +50,12 @@ export class ConnectedLogin extends Component {
     }
 
     if (success) {
-      return setTimeout(() => history.push('/', { prev: 'login' }), 2000);
+      return setTimeout(() => history.push('/', { prev: 'login' }), 500);
     }
   };
 
   render() {
+    if (this.props.loading) return <Loader />;
     return (
       <div className="min-height">
         <ToastContainer />
@@ -84,5 +90,5 @@ ConnectedLogin.propTypes = {
   history: propTypes.object,
 };
 
-const Login = connect(null, mapDispatchToProps)(ConnectedLogin);
+const Login = connect(mapStateTpProps, mapDispatchToProps)(ConnectedLogin);
 export default Login;
