@@ -3,11 +3,16 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import HeroComponent from '../Hero/Hero';
+import Loader from '../loader/Loader';
 import { getAllQuestion } from '../../redux/actions/allQuestion/allQuestionAction';
 import calculateTiming from '../../utilities/formatTime/calculateTime';
 
 const mapDispatchToProps = dispatch => ({
   getAllUsersQuestion: () => (dispatch(getAllQuestion())),
+});
+
+const mapStateToProps = state => ({
+  loading: state.allQuestionReducer.loading,
 });
 
 export class ConnectedHomeComponent extends Component {
@@ -34,6 +39,7 @@ export class ConnectedHomeComponent extends Component {
 
   render() {
     const { questions } = this.state;
+    if (this.props.loading) return <Loader />;
     return (
       <div className="min-height">
         <HeroComponent />
@@ -81,8 +87,9 @@ export class ConnectedHomeComponent extends Component {
 
 ConnectedHomeComponent.propTypes = {
   getAllUsersQuestion: propTypes.func.isRequired,
+  loading: propTypes.bool,
 };
 
-const HomeComponent = connect(null, mapDispatchToProps)(ConnectedHomeComponent);
+const HomeComponent = connect(mapStateToProps, mapDispatchToProps)(ConnectedHomeComponent);
 
 export default HomeComponent;

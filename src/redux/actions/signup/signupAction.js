@@ -4,6 +4,8 @@ import {
   SIGNUP_SUCCESS,
   SIGNUP_ERROR,
 } from '../../actionTypes/signup';
+import { logout } from '../Login/LoginActions';
+
 
 export const signupBegin = () => ({
   type: SIGNUP_BEGIN,
@@ -34,3 +36,5 @@ export const signupRequest = (user) => {
       });
   };
 };
+
+export const logoutSignedupUser = () => dispatch(logout());

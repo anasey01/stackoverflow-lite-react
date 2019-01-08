@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import Loader from '../loader/Loader';
 import { notify, ToastContainer } from '../../utilities/toast/notify';
 import { createQuestion } from '../../redux/actions/create-question/createQuestionActions';
 import '../styles/createQuestion.scss';
@@ -10,6 +11,9 @@ const mapDispatchToProps = dispatch => ({
   createUserQuestion: question => dispatch(createQuestion(question))
 });
 
+const mapStateToProps = state => ({
+  loading: state.createQuestionReducer.loading,
+});
 export class ConnectedCreateQuestion extends Component {
   constructor(props) {
     super(props);
@@ -53,6 +57,7 @@ export class ConnectedCreateQuestion extends Component {
   };
 
   render() {
+    if (this.props.loading) return <Loader />;
     return (
       <div className="main min-height">
         <aside>
@@ -94,5 +99,5 @@ ConnectedCreateQuestion.propTypes = {
   history: propTypes.object,
 };
 
-const CreateQuestion = connect(null, mapDispatchToProps)(ConnectedCreateQuestion);
+const CreateQuestion = connect(mapStateToProps, mapDispatchToProps)(ConnectedCreateQuestion);
 export default CreateQuestion;

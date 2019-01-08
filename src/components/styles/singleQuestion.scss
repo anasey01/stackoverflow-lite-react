@@ -119,6 +119,10 @@ a#add-comment {
   display: inline;
 }
 
+div#deleteQuestion.disabled {
+  display: none;
+}
+
 #deleteQuestion {
   display: inline;
 }
@@ -130,6 +134,10 @@ a#add-comment {
 /* answers Section */
 .answers-section{
   margin: 20px 0;
+}
+
+#timing {
+  margin-left: 15px;
 }
 
 .name{

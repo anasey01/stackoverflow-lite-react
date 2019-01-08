@@ -4,6 +4,7 @@ import loginReducer from './login/loginReducer';
 import createQuestionReducer from './create-question/createQuestionReducer';
 import singleQuestionReducer from './singleQuestion/singleQuestionReducer';
 import allQuestionReducer from './allQuestion/allQuestionReducer';
+import postAnswerReducer from './answer/answerReducer';
 
 const rootReducer = combineReducers({
   signupReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   createQuestionReducer,
   singleQuestionReducer,
   allQuestionReducer,
+  postAnswerReducer,
 });
 
 export default rootReducer;

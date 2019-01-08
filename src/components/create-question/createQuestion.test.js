@@ -12,6 +12,16 @@ const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
 
 describe('<CreateQuestion />', () => {
+  let store;
+  const initialState = {
+    createQuestionReducer: {
+      loading: false,
+    },
+  };
+
+  beforeEach(() => {
+    store = mockStore(initialState);
+  });
   it('should simulate state change', () => {
     const mockCreateQuestionFn = jest.fn();
     const wrapper = mount(
@@ -66,7 +76,6 @@ describe('<CreateQuestion />', () => {
 
   it('handleSubmit works as expected when createUserQuestion returns true', async () => {
     const mock = new MockAdapter(axios);
-    const store = mockStore({});
     const wrapper = mount(
       <MemoryRouter>
         <Provider store={store}>
@@ -92,7 +101,6 @@ describe('<CreateQuestion />', () => {
 
   it('handleSubmit works as expected when createUserQuestion returns false', async () => {
     const mock = new MockAdapter(axios);
-    const store = mockStore({});
     const wrapper = mount(
       <MemoryRouter>
         <Provider store={store}>

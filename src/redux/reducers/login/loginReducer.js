@@ -18,6 +18,7 @@ try {
       error: null,
       token: null,
       id: null,
+      username: null,
     };
   }
 } catch (error) { /** do nothing */ }
@@ -40,6 +41,7 @@ const loginReducer = (state = initialState, action) => {
       token: action.payload.token,
       id: action.payload.id,
       error: null,
+      username: action.payload.username,
     };
 
   case LOGIN_ERROR:
@@ -47,6 +49,9 @@ const loginReducer = (state = initialState, action) => {
       ...state,
       loading: false,
       error: action.payload,
+      success: false,
+      id: null,
+      username: null,
     };
 
   case LOGOUT_USER:
@@ -56,6 +61,8 @@ const loginReducer = (state = initialState, action) => {
       loading: false,
       token: null,
       id: null,
+      username: null,
+      error: null,
     };
 
   default:

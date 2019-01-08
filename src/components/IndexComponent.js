@@ -8,6 +8,8 @@ import Login from './Login/Login';
 import CreateQuestion from './create-question/CreateQuestion';
 import SingleQuestion from './SingleQuestion/SingleQuestion';
 import Logout from './Logout/Logout';
+import Answer from './Answer/Answer';
+import Loader from './loader/Loader';
 
 export default {
   Header,
@@ -20,4 +22,6 @@ export default {
   CreateQuestion,
   SingleQuestion,
   Logout,
+  Answer,
+  Loader,
 };

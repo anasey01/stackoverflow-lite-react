@@ -38,4 +38,34 @@ describe('singleQuestionReducer test', () => {
       payload: 'Some Error Message',
     })).toEqual(state);
   });
+
+  it('should handle DELETE_QUESTION_BEGIN', () => {
+    state.loading = true;
+    expect(reducer(state, {
+      type: types.DELETE_QUESTION_BEGIN,
+    })).toEqual(state);
+  });
+
+  it('should handle DELETE_QUESTION_SUCCESS', () => {
+    state.loading = false;
+    state.error = null;
+    state.question = { question: 'some question' };
+    expect(reducer(state, {
+      type: types.DELETE_QUESTION_SUCCESS,
+      payload: {
+        question: 'some question',
+      }
+    })).toEqual(state);
+  });
+
+  it('should handle DELETE_QUESTION_ERROR', () => {
+    state.loading = false;
+    state.error = { error: 'error' };
+    expect(reducer(state, {
+      type: types.DELETE_QUESTION_ERROR,
+      payload: {
+        error: 'error',
+      }
+    })).toEqual(state);
+  });
 });
