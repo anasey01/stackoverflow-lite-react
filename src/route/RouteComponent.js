@@ -16,7 +16,6 @@ const {
   CreateQuestion,
   SingleQuestion,
   Logout,
-  Answer,
 } = Components;
 
 
@@ -33,6 +32,7 @@ class RouteComponent extends React.Component {
             <Route path="/createquestion" component={CreateQuestion} />
             <Route path="/questions/:id" component={SingleQuestion} />
             <Route path="/logout" component={Logout} />
+            <Route path="/recent-questions" component={Home} />
             <Route component={NotFound} />
           </Switch>
           <Footer />
