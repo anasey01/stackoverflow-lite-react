@@ -65,7 +65,7 @@ export class ConnectedCreateQuestion extends Component {
             <nav>
               <ul>
                 <li><Link to="/">Home</Link></li>
-                <li><Link to="/recentquestion">Recent Questions</Link></li>
+                <li><Link to="/recent-questions">Recent Questions</Link></li>
                 <li id="no-border" className="highlight-current"><Link to="/createquestion">Ask a Question</Link></li>
               </ul>
             </nav>
@@ -97,6 +97,7 @@ export class ConnectedCreateQuestion extends Component {
 ConnectedCreateQuestion.propTypes = {
   createUserQuestion: propTypes.func.isRequired,
   history: propTypes.object,
+  loading: propTypes.bool,
 };
 
 const CreateQuestion = connect(mapStateToProps, mapDispatchToProps)(ConnectedCreateQuestion);

@@ -37,18 +37,26 @@ export class ConnectedHomeComponent extends Component {
     });
   };
 
+  renderHero = () => {
+    if (window.location.pathname === '/recent-questions') {
+      return null;
+    }
+
+    return <HeroComponent displayComponent={'enabled'}/>;
+  }
+
   render() {
     const { questions } = this.state;
     if (this.props.loading) return <Loader />;
     return (
       <div className="min-height">
-        <HeroComponent />
+        {this.renderHero()}
         <main className="container"id="main-section">
           <aside id="left-sidebar">
             <nav>
               <ul>
                 <li className="highlight-current"><Link to="/">Home</Link></li>
-                <li><Link to="/recentquestions" className="auth">Recent Questions</Link></li>
+                <li><Link to="/recent-questions" className="auth">Recent Questions</Link></li>
                 <li><Link id="hidden"
                   to="/createquestion"
                   className="auth">Ask a Question</Link></li>

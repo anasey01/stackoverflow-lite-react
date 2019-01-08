@@ -13,7 +13,14 @@ class HeroComponent extends Component {
     };
   }
 
+  componentDidUpdate() {
+
+  }
+
   render() {
+    const {
+      displayComponent,
+    } = this.props;
     return (
       <section id="hero-section">
         <div className="container" id="signup-display">
