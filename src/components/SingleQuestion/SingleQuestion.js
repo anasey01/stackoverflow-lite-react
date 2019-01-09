@@ -142,7 +142,7 @@ export class ConnectedSingleQuestion extends Component {
               <h1 id="modalHeader">{modalHeading}</h1>
               <p id="modalText">{modalText}</p>
               <a className="deleteQuestion" onClick={this.handleDelete}>OK</a>
-              <a className="cancelDelete" onClick={this.cancleDelete}>CANCLE</a>
+              <a className="cancelDelete" onClick={this.cancleDelete}>CANCEL</a>
             </div>
           </div>
           <h1 id="question-title">{question.question_title}</h1>
