@@ -313,7 +313,7 @@ main{
 
 /*Side Navigation */
 aside#left-sidebar {
-  margin:25px 25px 0 0;
+  // margin:25px 25px 0 0;
   padding-top: 80px;
   float:left;
   min-width: 20%;
@@ -426,13 +426,40 @@ font-size: 1em;
 }
 
 /*Media query*/
-@media(max-width: 873px){
+@media(max-width: 1024px){
   #welcome-text h1{
       font-size:2.9em;
   }
   div #welcome-text p{
      font-size: 1.1em
   }
+  header #company-logo h1 {
+    font-size: 3em;
+
+  }
+  nav ul li a {
+    font-size: 2em;
+  }
+  aside#left-sidebar{
+    float: none;
+    border-right:none;
+    min-height:100%;
+    position: relative;
+    // margin-top: 15em;
+}
+#left-sidebar ul li{
+    display: inline-block;
+}
+
+div.main-content-title {
+  //margin-top: 6em;
+}
+
+#left-sidebar ul li a{
+  margin: 0.5em;
+}
+
+
 }
 
 @media(max-width: 705px){
@@ -481,9 +508,8 @@ font-size: 1em;
   aside#left-sidebar{
       float: none;
       border-right:none;
-      margin:25px 0 5px 0;
       min-height:100%;
-      position: absolute;
+      position: relative;
   }
   #left-sidebar ul li{
       display: inline-block;

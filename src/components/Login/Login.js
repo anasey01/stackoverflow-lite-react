@@ -50,7 +50,7 @@ export class ConnectedLogin extends Component {
     }
 
     if (success) {
-      return setTimeout(() => history.push('/', { prev: 'login' }), 500);
+      return setTimeout(() => history.push('/', { prev: 'login' }), 5000);
     }
   };
 

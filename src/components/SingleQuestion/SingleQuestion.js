@@ -111,8 +111,12 @@ export class ConnectedSingleQuestion extends Component {
     } = response;
     switch (success) {
     case true:
+      this.setState({
+        showModal: false,
+      });
       notify(message, 'success');
-      return setTimeout(() => history.push('/recentquestions', { prev: 'recentquestion' }), 500);
+      setTimeout(() => history.push('/recent-questions', { prev: 'recent-questions' }), 2000);
+      break;
     default:
       notify(message, 'failure');
     }
