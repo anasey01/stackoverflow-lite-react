@@ -4,12 +4,13 @@
   "description": "frontend implementation of stackoverflow lite using reactjs",
   "main": "src/index.js",
   "scripts": {
-    "start": "npm run heroku:prebuild && webpack && npm run prebuild && node server/dist/app.js",
+    "start": "node server/dist/app.js",
     "test": "jest --config ./jest.config.json --coverage --colors",
     "test:watch": "jest --config ./jest.config.json --watch",
     "dev": "webpack-dev-server --open",
     "prebuild": "rm -rf server/dist && babel server --out-dir server/dist",
-    "heroku:prebuild": "npm install --only=dev",
+    "start:prod": "npm run heroku-postbuild && npm run start",
+    "heroku-postbuild": "npm run prebuild && webpack",
     "build": "webpack --mode production"
   },
   "repository": {

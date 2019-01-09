@@ -30,7 +30,7 @@ class HeroComponent extends Component {
             <p>Join the developer's online community</p>
           </div>
           <div id="search-question">
-            <form action="/search">
+            <form action="#">
               <input type="text" name="q" id="search" placeholder="Find any Question..." />
               <button className="btn" type="submit"id="searchBtn">Search</button>
             </form>
