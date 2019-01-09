@@ -15,7 +15,7 @@ const Header = () => {
           <ul>
             <li><Link to="/login" className={removeAuthClass} id="login">Login</Link></li>
             <li><Link to="/signup" id="signup" className= {removeAuthClass}>Sign Up</Link></li>
-            <li><Link to="/dashboard" className= {successLoginClass} id="dashboard">Dashboard</Link></li>
+            <li><Link to="#" className= {successLoginClass} id="dashboard">Dashboard</Link></li>
             <li><Link to="/logout" id="logout" className= {successLoginClass}>Logout</Link></li>
           </ul>
         </nav>

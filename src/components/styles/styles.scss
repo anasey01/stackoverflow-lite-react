@@ -263,6 +263,24 @@ div #welcome-text p {
   text-decoration: none;
 }
 
+.edit-answer {
+    width: 75%;
+    height: 100px;
+    outline: none;
+    border: 1px solid #666;
+    box-shadow: 0 0 5px #666;
+    resize: none;
+}
+
+.edit-answer {
+  display: block;
+}
+
+.answer-edit-btn {
+  display: inline;
+  margin: 5px;
+}
+
 /*Search Question */
 
 .search-section{

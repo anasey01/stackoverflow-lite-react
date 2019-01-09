@@ -6,6 +6,7 @@ const state = {
   error: null,
   answer: null,
   answers: [],
+  editedAnswer: null,
 };
 
 describe('answerReducer tests', () => {
@@ -72,9 +73,45 @@ describe('answerReducer tests', () => {
     state.error = { error: 'error' };
     state.answers = null;
     state.answer = null;
-
+    state.editedAnswer = null;
     expect(answerReducer(state, {
       type: types.GET_ANSWERS_ERROR,
+      payload: {
+        error: 'error',
+      },
+
+    })).toEqual(state);
+  });
+
+  it('should trigger UPDATE_ANSWER_BEGIN', () => {
+    state.loading = true;
+    state.error = null;
+    state.editedAnswer = null;
+
+    expect(answerReducer(state, {
+      type: types.UPDATE_ANSWER_BEGIN,
+    })).toEqual(state);
+  });
+
+  it('should trigger UPDATE_ANSWER_SUCCESS', () => {
+    state.loading = false;
+    state.error = null;
+    state.editedAnswer = { answer: 'here is an answer' };
+
+    expect(answerReducer(state, {
+      type: types.UPDATE_ANSWER_SUCCESS,
+      payload: {
+        answer: 'here is an answer',
+      }
+    })).toEqual(state);
+  });
+
+  it('should trigger UPDATE_ANSWER_ERROR', () => {
+    state.loading = false;
+    state.error = { error: 'error' };
+    state.editedAnswer = null;
+    expect(answerReducer(state, {
+      type: types.UPDATE_ANSWER_ERROR,
       payload: {
         error: 'error',
       },

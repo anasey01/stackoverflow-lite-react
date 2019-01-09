@@ -7,6 +7,9 @@ import {
   GET_ANSWERS_BEGIN,
   GET_ANSWERS_SUCCESS,
   GET_ANSWERS_ERROR,
+  UPDATE_ANSWER_BEGIN,
+  UPDATE_ANSWER_SUCCESS,
+  UPDATE_ANSWER_ERROR,
 } from '../../actionTypes/answer';
 
 export const triggerAnswerBegin = () => ({
@@ -37,6 +40,19 @@ export const getAnswersError = error => ({
   payload: error,
 });
 
+export const triggerUpdateAnswer = () => ({
+  type: UPDATE_ANSWER_BEGIN,
+});
+
+export const updateAnswerSuccess = answer => ({
+  type: UPDATE_ANSWER_SUCCESS,
+  payload: answer,
+});
+
+export const updateAnswerError = error => ({
+  type: UPDATE_ANSWER_ERROR,
+  payload: error,
+});
 
 export const postAnswer = (questionId, answer) => {
   const tokens = store.getState();
@@ -92,6 +108,37 @@ export const getAllAnswers = (questionId) => {
       })
       .catch((error) => {
         dispatch(getAnswersError(error.response.data));
+        return error.response.data;
+      });
+  };
+};
+
+export const updateAnswer = (questionId, answerId, answer) => {
+  const tokens = store.getState();
+
+  const loginToken = tokens.loginReducer.token;
+  const signupToken = tokens.signupReducer.token;
+  const token = loginToken || signupToken;
+
+  return (dispatch) => {
+    const url = `https://anasey-stackoverflow-lite.herokuapp.com/api/v1/questions/${questionId}/answers/${answerId}`;
+    dispatch(triggerUpdateAnswer());
+    return axios({
+      method: 'PUT',
+      url,
+      headers: {
+        'x-auth-token': token,
+      },
+      data: {
+        answer,
+      },
+    })
+      .then((response) => {
+        dispatch(updateAnswerSuccess(response.data));
+        return response.data;
+      })
+      .catch((error) => {
+        dispatch(error.response.data);
         return error.response.data;
       });
   };

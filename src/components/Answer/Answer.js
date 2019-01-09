@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import {
-  postAnswer, getAllAnswers,
+  postAnswer, getAllAnswers, updateAnswer
 } from '../../redux/actions/answer/answerActions';
 import { notify, ToastContainer } from '../../utilities/toast/notify';
 import calculateTime from '../../utilities/formatTime/calculateTime';
+import isOwner from '../../utilities/ownership/isOwner';
+import store from '../../redux/store/index';
 
 const mapDispatchToProps = dispatch => ({
   postUserAnswer: (questionId, answer) => dispatch(postAnswer(questionId, answer)),
   getAnswersForSpecificQuestion: questionId => dispatch(getAllAnswers(questionId)),
+  updateUserAnswer: (questionId, answerId, answer) => dispatch(updateAnswer(questionId, answerId, answer)),
 });
 
 const mapStateToProps = state => ({
@@ -24,6 +27,9 @@ export class ConnectAnswerComponent extends Component {
     this.state = {
       answer: '',
       answers: [],
+      displayEdit: '',
+      questionId: '',
+      answerId: '',
     };
 
     this.inputValue = React.createRef();
@@ -40,20 +46,114 @@ export class ConnectAnswerComponent extends Component {
       getAnswersForSpecificQuestion,
       questionId
     } = this.props;
-
-
     const update = await getAnswersForSpecificQuestion(questionId);
     return update;
   };
 
-  renderAnswers = () => {
-    const { answers } = this.props;
+  displayAnswerEdit = (event, currentAnswer, questionId, answerId) => {
+    const displayEdit = event.target.id;
+    this.setState({
+      answer: currentAnswer,
+      displayEdit,
+      questionId,
+      answerId,
+    });
+    this.renderAnswers();
+  }
 
+  handleAnswerEdit = async (event) => {
+    event.preventDefault();
+    event.persist();
+    const {
+      updateUserAnswer
+    } = this.props;
+    const {
+      questionId,
+      answerId,
+      answer,
+    } = this.state;
+    const response = await updateUserAnswer(questionId, answerId, answer);
+    const {
+      success, message
+    } = response;
+    switch (success) {
+    case true:
+      notify(message, 'success');
+      event.target.parentElement.parentElement
+        .getElementsByClassName('answer-by-others-content')[0].innerText = answer;
+      await this.cancelAnswerEdit();
+
+      break;
+    default:
+      notify(message, 'failure');
+    }
+  }
+
+  cancelAnswerEdit = () => {
+    this.setState({
+      displayEdit: 'disabled',
+    });
+  }
+
+  renderEditAnswer = (answerNumber) => {
+    const {
+      displayEdit,
+      answer,
+    } = this.state;
+
+    if (displayEdit === `edit-${answerNumber}`) {
+      return (
+        <div className={displayEdit}>
+          <form onSubmit={this.handleAnswerEdit}>
+            <textarea name="answer"
+              value={answer}
+              onChange={this.handleChange}
+              className="edit-answer"
+            />
+            <button
+              type="submit"
+              className="answer-edit-btn"> Edit </button>
+            <button
+              onClick ={this.cancelAnswerEdit}
+              className="answer-edit-btn"> Cancel </button>
+          </form>
+        </div>
+
+      );
+    }
+    return null;
+  }
+
+  renderButton = (username, answer, questionId, answerId) => {
+    const author = username;
+    const loggedInUser = store.getState().loginReducer.username;
+    const signedUpUser = store.getState().signupReducer.username;
+    const loggedInUsername = loggedInUser || signedUpUser;
+    const owner = isOwner(loggedInUsername, author);
+
+    if (owner === 'owner') {
+      return (
+        <button id={`edit-${answerId}`}
+          onClick={(event) => {
+            this.displayAnswerEdit(event, answer, questionId, answerId);
+          }}>Edit answer</button>
+      );
+    }
+
+    return null;
+  }
+
+  renderAnswers = () => {
+    const {
+      answers
+    } = this.props;
     if (answers) {
       return answers.map(a => (
         <div className="answers-by-others" key={a.answer_number}>
           <p id="username" className="name">{ a.username } <span id="timing">{calculateTime(a.created_at)}</span></p>
           <p className="answer-by-others-content">{a.answer}</p>
+          { this.renderButton(a.username, a.answer, a.question_id, a.answer_number) }
+          { this.renderEditAnswer(a.answer_number) }
         </div>
       ));
     }
@@ -128,6 +228,7 @@ ConnectAnswerComponent.propTypes = {
   answers: propTypes.array,
   postUserAnswer: propTypes.func,
   updateAnswers: propTypes.func,
+  updateUserAnswer: propTypes.func,
 };
 
 const AnswerComponent = connect(mapStateToProps, mapDispatchToProps)(ConnectAnswerComponent);

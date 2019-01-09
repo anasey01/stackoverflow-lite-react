@@ -5,6 +5,7 @@ const initialState = {
   error: null,
   answer: null,
   answers: [],
+  editedAnswer: null,
 };
 
 const postAnswer = (state = initialState, action) => {
@@ -44,10 +45,30 @@ const postAnswer = (state = initialState, action) => {
 
   case types.GET_ANSWERS_ERROR:
     return {
+      ...state,
       loading: false,
       error: action.payload,
       answers: null,
       answer: null,
+    };
+  case types.UPDATE_ANSWER_BEGIN:
+    return {
+      ...state,
+      loading: true,
+    };
+  case types.UPDATE_ANSWER_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      error: null,
+      editedAnswer: action.payload,
+    };
+  case types.UPDATE_ANSWER_ERROR:
+    return {
+      ...state,
+      loading: false,
+      editedAnswer: null,
+      error: action.payload,
     };
   default:
     return state;
