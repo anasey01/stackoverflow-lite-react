@@ -53,7 +53,7 @@ export class ConnectedCreateQuestion extends Component {
     default:
       return notify(message, 'failure');
     }
-    return setTimeout(() => history.push(`/questions/${this.state.questionId}`), 1000);
+    return setTimeout(() => history.push(`/questions/${this.state.questionId}`), 5000);
   };
 
   render() {
@@ -74,19 +74,19 @@ export class ConnectedCreateQuestion extends Component {
         <div className="main-content-title">
           <form id="create-question-form" onSubmit={this.handleSubmit}>
             <ToastContainer />
-            <label htmlFor="title">Title:</label>
+            <label id="label-title" htmlFor="title">Title:</label>
             <input type="text"
               onChange={this.handleChange}
               id="title" name="questionTitle"
               placeholder="Title" />
-            <label htmlFor="content">Your Question:</label>
+            <label id="label-question" htmlFor="content">Your Question:</label>
             <textarea name="questionContent"
               onChange={this.handleChange}
               id="content"
               placeholder="Your Question Here..." />
             <button type="submit"
               className="btn question-answer-btn"
-              id="btn"> Post Your Question </button>
+              id="btn post-question"> Post Your Question </button>
           </form>
         </div>
       </div>

@@ -1,7 +1,9 @@
 aside #left-sidebar {
+  padding-top: 80px;
   float:left;
-  min-width: 12%;
-  margin-top: 120px;
+  min-width: 20%;
+  min-height: 550px;
+  border-right: 2px solid rgba(102,102,102, 0.3);
 }
 
 li .highlight-current {
@@ -27,6 +29,7 @@ div.main-content-title{
   font-weight: bold;
 }
 
+
 #title{
   width: 100%;
   padding: 12px 20px;
@@ -49,10 +52,11 @@ div.main-content-title{
 }
 
 /* Media Query */
-@media(max-width:643px){
-  aside#left-sidebar{
+
+@media screen and (max-width: 1024px){
+  aside #left-sidebar{
       float: none;
-      margin:25px 0 5px 0;
+      // margin:25px 0 5px 0;
       min-height:30px;
   }
   #left-sidebar ul li{
@@ -65,9 +69,21 @@ div.main-content-title{
   li .highlight-current{
       border-right:none;
   }
+
+  #title, #content, #btn{
+    font-size: 2em;
+  }
+
+  #label-title, #label-question {
+    font-size: 1.5em;
+  }
+
+  #btn {
+    height: 2.5em;
+  }
 }
 
-@media(max-width: 608px){
+@media(max-width: 768px){
   header li{
       padding-left: 0;
   }
@@ -79,6 +95,14 @@ div.main-content-title{
   header nav {
       float:none;
   }
+
+  aside#left-sidebar{
+    float: none;
+    border-right:none;
+    min-height:100%;
+    position: relative;
+    margin-top: 2em;
+ }
 }
 
 @media(max-width: 600px){

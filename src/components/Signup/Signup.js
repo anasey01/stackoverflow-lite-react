@@ -103,7 +103,7 @@ export class SignupComponent extends Component {
             value={email}
             onChange={this.handleChange}
             placeholder="Enter your valid email" required />
-          <button type="submit" className="">SIGNUP</button>
+          <button type="submit" className="btn">SIGNUP</button>
         </form>
       </div>
     );
